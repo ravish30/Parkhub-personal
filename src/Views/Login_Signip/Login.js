@@ -1,7 +1,9 @@
 import { Box, Button, Grid, TextField, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles, withStyles } from '@mui/styles'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { LoginUser } from '../../Applications/slices/authSlice';
 
 const useStyles = makeStyles((theme) => ({
     formWrapper: {
@@ -36,7 +38,16 @@ const CssTextField = withStyles({
 
 
 function Login() {
+    const dispatch = useDispatch()
     const classes = useStyles();
+    const navigate = useNavigate();
+
+    const loginHandler = () => {
+        localStorage.setItem('isAuth', true)
+        dispatch(LoginUser())
+        navigate('/myparking')
+    }
+    
     return (
         <>
             <Box>
@@ -71,6 +82,7 @@ function Login() {
                                     variant="contained"
                                     color="secondary"
                                     sx={{ width: "100%", paddingTop: "10px", paddingBottom: "10px", borderRadius: "2px" }}
+                                    onClick={loginHandler}
                                 >
                                     Sign in
                                 </Button>

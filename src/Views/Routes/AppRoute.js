@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from '../Components/Header';
 import Login from '../Login_Signip/Login';
 import CustomizeParking from '../Pages/CustomizeParking';
+import MyParking from '../Pages/MyParking';
 
 
 function AppRoute() {
@@ -14,6 +15,7 @@ function AppRoute() {
                     <Route path='/' />
                         <Route index element={<Login />} />
                         <Route path="customize-parking" element={<CustomizeParking />} />
+                        <Route path="myparking" element={<MyParking />} />
                 </Routes>
             </BrowserRouter>
         </>

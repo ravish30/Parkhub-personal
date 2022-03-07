@@ -8,10 +8,9 @@ import Step1 from '../Components/Steps/Step1';
 import Step2 from '../Components/Steps/Step2';
 import Step3 from '../Components/Steps/Step3';
 import Step4 from '../Components/Steps/Step4';
-import Step5 from '../Components/Steps/Step5';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-const steps = ['Basic Info', 'Email Verification', 'Parking Details', 'Set Password', 'Preview and Submit']
+const steps = ['Basic Info', 'Email Verification', 'Parking Details', 'Set Password']
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -75,7 +74,7 @@ function CustomizeParking() {
     const [activeStep, setActiveStep] = useState(0)
 
     const nextHandler = () => {
-        setActiveStep(activeStep+1)
+        setActiveStep(activeStep + 1)
     }
     return (
         <>
@@ -103,9 +102,8 @@ function CustomizeParking() {
                                 {activeStep === 1 && <Step2 />}
                                 {activeStep === 2 && <Step3 />}
                                 {activeStep === 3 && <Step4 />}
-                                {activeStep === 4 && <Step5 />}
                             </Box>
-                            <Box sx={{ marginTop: "100px", fontSize: "14px", display: "flex", justifyContent: "end" }}>
+                            {(activeStep !== steps.length - 1) && <Box sx={{ marginTop: "100px", fontSize: "14px", display: "flex", justifyContent: "end" }}>
                                 <Box display="flex" alignItems="center" sx={{ cursor: 'pointer' }} onClick={nextHandler}>
                                     <Typography
                                         color="secondary"
@@ -115,7 +113,7 @@ function CustomizeParking() {
                                     </Typography>
                                     <NavigateNextIcon color="secondary" />
                                 </Box>
-                            </Box>
+                            </Box>}
                         </Box>
                     </Grid>
                 </Grid>

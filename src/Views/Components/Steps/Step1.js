@@ -17,7 +17,7 @@ function Step1() {
                             variant="standard"
                             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
-                            sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "20px" }}
+                            sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
                         />
                         <TextField
                             type="text"
@@ -26,7 +26,7 @@ function Step1() {
                             variant="standard"
                             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
-                            sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "20px" }}
+                            sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
                         />
                     </Grid>
                     <Grid item lg={6} md={6}>
@@ -37,7 +37,7 @@ function Step1() {
                             variant="standard"
                             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
-                            sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "20px" }}
+                            sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
                         />
                         <TextField
                             type="text"
@@ -46,7 +46,7 @@ function Step1() {
                             variant="standard"
                             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
-                            sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "20px" }}
+                            sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
                         />
                     </Grid>
                 </Grid>
@@ -58,7 +58,7 @@ function Step1() {
                         variant="standard"
                         InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                         InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
-                        sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "20px" }}
+                        sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
                     />
                     <TextField
                         type="text"
@@ -67,7 +67,7 @@ function Step1() {
                         variant="standard"
                         InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                         InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
-                        sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "20px" }}
+                        sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
                     />
                 </Box>
             </Box>
