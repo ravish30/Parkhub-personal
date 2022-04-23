@@ -63,21 +63,23 @@ function ParkingHead() {
           alignItems="center"
         >
           <TabsList>
-            <Tab>Basement 1</Tab>
-            <Tab>Basement 2</Tab>
-            <Tab>Basement 3</Tab>
+            {new Array(5).fill("").map((_, i) => {
+              return (
+                <Tab>Basement {i + 1}</Tab>
+              )
+            })}
           </TabsList>
         </Box>
-        <TabPanel value={0}>
-          <Box sx={{ marginTop: "50px" }}>
-            <Basement />
-          </Box>
-        </TabPanel>
-        <TabPanel value={1}>
-          <Box sx={{ marginTop: "50px" }}>
-            <Basement />
-          </Box>
-        </TabPanel>
+        
+        {new Array(5).fill("").map((_, i) => {
+          return (
+            <TabPanel value={i}>
+              <Box sx={{ marginTop: "50px" }}>
+                <Basement basementNo={i+1} />
+              </Box>
+            </TabPanel>
+          )
+        })}
       </TabsUnstyled>
     </Box>
   )

@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const CenterMode = () => {
+const CenterMode = (props) => {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false)
@@ -107,14 +107,14 @@ const CenterMode = () => {
     return (
         <div>
             <Slider {...settings}>
-                {new Array(50).fill("").map((i, _) => {
+                {new Array(10).fill("").map((_, i) => {
                     return (
                         <Box sx={{ margin: "10px" }}>
                             <Box className={classes.card}>
                                 <Typography color="primary" sx={{ textAlign: 'center' }}>Vacant</Typography>
                                 <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: "15px" }}>
                                     <Typography color="primary">Slot No :</Typography>
-                                    <Typography color="primary" sx={{ border: "1px solid #fff", padding: "5px 10px", borderRadius: "10px", fontSize: "12px" }}>B1P1</Typography>
+                                    <Typography color="primary" sx={{ border: "1px solid #fff", padding: "5px 10px", borderRadius: "10px", fontSize: "12px" }}>B{props.basementNo}S{i+1}</Typography>
                                 </Box>
                                 <Box sx={{ marginTop: "200px" }}>
                                     <Button onClick={handleOpen} color="secondary" variant="outlined" sx={{ width: "100%", textAlign: 'center' }}>Park Here</Button>
