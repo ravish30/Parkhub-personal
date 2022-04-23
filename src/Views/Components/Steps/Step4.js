@@ -2,9 +2,13 @@ import { Box, Typography, TextField, Button } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux'
 
 function Step4() {
   const navigate = useNavigate();
+
+  const step1Data = useSelector(state => state.auth.step1)
+  const step3Data = useSelector(state => state.auth.step3)
 
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
@@ -17,6 +21,13 @@ function Step4() {
 
     if (data?.password1 && data?.password2) {
       if (data.password1 === data.password2) {
+        const finalUserData = {
+          ...step1Data,
+          ...step3Data,
+          password1
+        }
+
+        console.log(finalUserData);
         navigate('/')
       }
       else {
