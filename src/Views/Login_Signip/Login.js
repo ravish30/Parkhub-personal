@@ -4,6 +4,8 @@ import { makeStyles, withStyles } from '@mui/styles'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LoginUser } from '../../Applications/slices/authSlice';
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 const useStyles = makeStyles((theme) => ({
     formWrapper: {
@@ -35,6 +37,17 @@ const CssTextField = withStyles({
     },
 })(TextField);
 
+const validationSchema = yup.object({
+    email: yup
+        .string("Enter your email")
+        .email("Enter a valid email")
+        .required("Email is required"),
+    password: yup
+        .string("Enter your password")
+        .min(8, "Password should be of minimum 8 characters length")
+        .required("Password is required")
+})
+
 
 
 function Login() {
@@ -42,23 +55,38 @@ function Login() {
     const classes = useStyles();
     const navigate = useNavigate();
 
-    const loginHandler = () => {
-        localStorage.setItem('isAuth', true)
-        dispatch(LoginUser())
-        navigate('/myparking')
-    }
-    
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values, { resetForm }) => {
+            resetForm({});
+            localStorage.setItem('isAuth', true)
+            dispatch(LoginUser())
+            navigate('/myparking')
+        }
+    })
+
+
+
     return (
         <>
             <Box>
                 <Grid container spacing={2}>
                     <Grid item lg={6} md={6}>
-                        <Box component="form" className={classes.formWrapper}>
+                        <Box component="form" className={classes.formWrapper} onSubmit={formik.handleSubmit}>
                             <Typography component="div" sx={{ margin: "20px auto" }}>
                                 <CssTextField
                                     type="email"
                                     label="Email"
                                     name="email"
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.email && Boolean(formik.errors.email)}
+                                    helperText={formik.touched.email && formik.errors.email}
                                     variant="outlined"
                                     InputProps={{ style: { color: "#fff" } }}
                                     InputLabelProps={{ style: { color: "#fff" } }}
@@ -70,7 +98,14 @@ function Login() {
                                     type="password"
                                     label="Password"
                                     name="password"
-                                    variant="outlined"
+                                    onBlur={formik.handleBlur}
+                                    autoComplete="current-password"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    error={
+                                        formik.touched.password && Boolean(formik.errors.password)
+                                    }
+                                    helperText={formik.touched.password && formik.errors.password} variant="outlined"
                                     InputProps={{ style: { color: "#fff" } }}
                                     InputLabelProps={{ style: { color: "#fff" } }}
                                     sx={{ width: "100%", color: "#fff" }}
@@ -82,7 +117,6 @@ function Login() {
                                     variant="contained"
                                     color="secondary"
                                     sx={{ width: "100%", paddingTop: "10px", paddingBottom: "10px", borderRadius: "2px" }}
-                                    onClick={loginHandler}
                                 >
                                     Sign in
                                 </Button>

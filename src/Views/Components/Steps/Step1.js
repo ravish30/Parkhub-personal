@@ -1,9 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Grid, TextField, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useDispatch } from 'react-redux'
+import { Step1Data } from '../../../Applications/slices/authSlice';
+import { toast } from 'react-toastify';
 
 
-function Step1() {
+
+function Step1(props) {
+    const dispatch = useDispatch();
+
+    const [firstname, setFirstname] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [organization, setOrganization] = useState('')
+    const [location, setLocation] = useState('')
+    const [email, setEmail] = useState('')
+    const [mobileNumber, setMobileNumber] = useState('')
+
+    const step1Handler = () => {
+        const data = {
+            firstname: firstname,
+            lastname: lastname,
+            organization: organization,
+            location: location,
+            email: email,
+            mobileNumber: mobileNumber
+        }
+
+        if (data?.firstname && data?.lastname && data?.organization && data?.location && data?.email && data?.mobileNumber) {
+            dispatch(Step1Data(data));
+            props.nextHandler();
+        }
+        else {
+            toast.warning('Please fill all fields', {
+                position: 'top-center',
+                autoClose: 2000
+            });
+        }
+
+    }
+
     return (
         <>
             <Box sx={{ textAlign: 'center' }}>
@@ -15,6 +52,8 @@ function Step1() {
                             name="firstname"
                             label="Firstname"
                             variant="standard"
+                            onChange={(e) => setFirstname(e.target.value)}
+                            value={firstname}
                             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
@@ -24,6 +63,8 @@ function Step1() {
                             name="organization"
                             label="Organization"
                             variant="standard"
+                            onChange={(e) => setOrganization(e.target.value)}
+                            value={organization}
                             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
@@ -35,6 +76,8 @@ function Step1() {
                             name="lastname"
                             label="Lastname"
                             variant="standard"
+                            onChange={(e) => setLastname(e.target.value)}
+                            value={lastname}
                             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
@@ -44,6 +87,8 @@ function Step1() {
                             name="location"
                             label="Location"
                             variant="standard"
+                            onChange={(e) => setLocation(e.target.value)}
+                            value={location}
                             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
                             sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
@@ -56,6 +101,8 @@ function Step1() {
                         name="email"
                         label="Email"
                         variant="standard"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
                         InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                         InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
                         sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
@@ -65,10 +112,23 @@ function Step1() {
                         name="mobileNumber"
                         label="Mobile Number"
                         variant="standard"
+                        onChange={(e) => setMobileNumber(e.target.value)}
+                        value={mobileNumber}
                         InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                         InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
                         sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "25px" }}
                     />
+                </Box>
+            </Box>
+            <Box sx={{ marginTop: "100px", fontSize: "14px", display: "flex", justifyContent: "end" }}>
+                <Box display="flex" alignItems="center" sx={{ cursor: 'pointer' }} onClick={step1Handler}>
+                    <Typography
+                        color="secondary"
+                        variant="p"
+                    >
+                        Next
+                    </Typography>
+                    <NavigateNextIcon color="secondary" />
                 </Box>
             </Box>
         </>

@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Grid, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { withStyles } from '@mui/styles';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useDispatch } from 'react-redux'
+import { Step3Data } from '../../../Applications/slices/authSlice';
+
 
 const CssTextField = withStyles({
   root: {
@@ -24,7 +28,24 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-function Step3() {
+function Step3(props) {
+  const dispatch = useDispatch();
+
+  const [basements, setBasements] = useState('')
+  const [carsPerBasement, setCarsPerBasement] = useState('')
+
+  const step3Handler = () => {
+    const data = {
+      numberOfBasements: basements,
+      carsPerBasement: carsPerBasement
+    }
+    if (data?.numberOfBasements && data?.carsPerBasement) {
+      dispatch(Step3Data(data));
+      props.nextHandler();
+    }
+
+  }
+
   return (
     <>
       <Box>
@@ -45,6 +66,8 @@ function Step3() {
                 name=""
                 label=""
                 variant="standard"
+                onChange={(e) => setBasements(e.target.value)}
+                value={basements}
                 InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                 InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
                 sx={{ fontSize: "10px", width: "100%", borderBottom: "1px solid #fff", marginBottom: "20px" }}
@@ -54,12 +77,25 @@ function Step3() {
                 name=""
                 label=""
                 variant="standard"
+                onChange={(e) => setCarsPerBasement(e.target.value)}
+                value={carsPerBasement}
                 InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
                 InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
                 sx={{ fontSize: "10px", width: "100%", borderBottom: "1px solid #fff", marginTop: "20px" }}
               />
             </Grid>
           </Grid>
+        </Box>
+      </Box>
+      <Box sx={{ marginTop: "100px", fontSize: "14px", display: "flex", justifyContent: "end" }}>
+        <Box display="flex" alignItems="center" sx={{ cursor: 'pointer' }} onClick={step3Handler}>
+          <Typography
+            color="secondary"
+            variant="p"
+          >
+            Next
+          </Typography>
+          <NavigateNextIcon color="secondary" />
         </Box>
       </Box>
     </>

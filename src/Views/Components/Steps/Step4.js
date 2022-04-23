@@ -1,12 +1,31 @@
 import { Box, Typography, TextField, Button } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 function Step4() {
   const navigate = useNavigate();
 
+  const [password1, setPassword1] = useState('')
+  const [password2, setPassword2] = useState('')
+
   const customizeHandler = () => {
-    navigate('/myparking')
+    const data = {
+      password1: password1,
+      password2: password2
+    }
+
+    if (data?.password1 && data?.password2) {
+      if (data.password1 === data.password2) {
+        navigate('/')
+      }
+      else {
+        toast.warning('Passwords do not match', {
+          position: 'top-center',
+          autoClose: 2000
+        })
+      }
+    }
   }
   return (
     <>
@@ -18,6 +37,8 @@ function Step4() {
             name="password"
             label="Password"
             variant="standard"
+            onChange={(e) => setPassword1(e.target.value)}
+            value={password1}
             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
             sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "30px" }}
@@ -27,6 +48,8 @@ function Step4() {
             name="verifypassword"
             label="Re-enter Password"
             variant="standard"
+            onChange={(e) => setPassword2(e.target.value)}
+            value={password2}
             InputProps={{ style: { color: "#fff", fontSize: "14px" } }}
             InputLabelProps={{ style: { color: "#fff", fontSize: "14px" } }}
             sx={{ borderBottom: "1px solid #fff", fontSize: "10px", width: "100%", marginTop: "40px" }}

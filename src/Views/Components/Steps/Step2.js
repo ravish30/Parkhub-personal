@@ -1,13 +1,27 @@
 import { Box, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import OtpInput from 'react-otp-input';
+import { toast } from 'react-toastify';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-function Step2() {
+
+function Step2(props) {
   const [otp, setOtp] = useState('')
 
   const handleOTPChange = (otp) => {
     setOtp(otp)
   }
+
+  const step2Handler = () => {
+    if (otp) {
+      props.nextHandler();
+      toast.success('Email Verified', {
+        position: 'top-center',
+        autoClose: 2000
+      });
+    }
+  }
+
   return (
     <>
       <Box sx={{ textAlign: 'center' }}>
@@ -30,6 +44,17 @@ function Step2() {
             />
             {/* <Button onClick={() => console.log(otp)}>Verify</Button> */}
           </Box>
+        </Box>
+      </Box>
+      <Box sx={{ marginTop: "100px", fontSize: "14px", display: "flex", justifyContent: "end" }}>
+        <Box display="flex" alignItems="center" sx={{ cursor: 'pointer' }} onClick={step2Handler}>
+          <Typography
+            color="secondary"
+            variant="p"
+          >
+            Next
+          </Typography>
+          <NavigateNextIcon color="secondary" />
         </Box>
       </Box>
     </>

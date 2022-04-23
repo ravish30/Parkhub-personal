@@ -8,7 +8,6 @@ import Step1 from '../Components/Steps/Step1';
 import Step2 from '../Components/Steps/Step2';
 import Step3 from '../Components/Steps/Step3';
 import Step4 from '../Components/Steps/Step4';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 const steps = ['Basic Info', 'Email Verification', 'Parking Details', 'Set Password']
 
@@ -76,6 +75,7 @@ function CustomizeParking() {
     const nextHandler = () => {
         setActiveStep(activeStep + 1)
     }
+
     return (
         <>
             <Box>
@@ -98,12 +98,12 @@ function CustomizeParking() {
                     <Grid item lg={6} md={6}>
                         <Box sx={{ width: "500px", margin: "auto" }}>
                             <Box>
-                                {activeStep === 0 && <Step1 />}
-                                {activeStep === 1 && <Step2 />}
-                                {activeStep === 2 && <Step3 />}
-                                {activeStep === 3 && <Step4 />}
+                                {activeStep === 0 && <Step1 nextHandler={nextHandler} />}
+                                {activeStep === 1 && <Step2 nextHandler={nextHandler} />}
+                                {activeStep === 2 && <Step3 nextHandler={nextHandler} />}
+                                {activeStep === 3 && <Step4 nextHandler={nextHandler} />}
                             </Box>
-                            {(activeStep !== steps.length - 1) && <Box sx={{ marginTop: "100px", fontSize: "14px", display: "flex", justifyContent: "end" }}>
+                            {/* {(activeStep !== steps.length - 1) && <Box sx={{ marginTop: "100px", fontSize: "14px", display: "flex", justifyContent: "end" }}>
                                 <Box display="flex" alignItems="center" sx={{ cursor: 'pointer' }} onClick={nextHandler}>
                                     <Typography
                                         color="secondary"
@@ -113,7 +113,7 @@ function CustomizeParking() {
                                     </Typography>
                                     <NavigateNextIcon color="secondary" />
                                 </Box>
-                            </Box>}
+                            </Box>} */}
                         </Box>
                     </Grid>
                 </Grid>

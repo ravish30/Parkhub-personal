@@ -6,8 +6,7 @@ import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import { Box } from '@mui/material';
-import Vacant from './Vacant';
-import Filled from './Filled';
+import Basement from './Basement';
 
 const Tab = styled(TabUnstyled)`
   font-family: Montserrat;
@@ -64,18 +63,19 @@ function ParkingHead() {
           alignItems="center"
         >
           <TabsList>
-            <Tab>Vacant Slots</Tab>
-            <Tab>Filled Slots</Tab>
+            <Tab>Basement 1</Tab>
+            <Tab>Basement 2</Tab>
+            <Tab>Basement 3</Tab>
           </TabsList>
         </Box>
         <TabPanel value={0}>
           <Box sx={{ marginTop: "50px" }}>
-            <Vacant />
+            <Basement />
           </Box>
         </TabPanel>
         <TabPanel value={1}>
           <Box sx={{ marginTop: "50px" }}>
-            <Filled />
+            <Basement />
           </Box>
         </TabPanel>
       </TabsUnstyled>
