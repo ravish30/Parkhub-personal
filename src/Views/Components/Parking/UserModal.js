@@ -8,7 +8,7 @@ import Slide from '@mui/material/Slide';
 import { makeStyles, withStyles } from '@mui/styles'
 import { Box, Typography, Button, Modal, TextField } from "@mui/material";
 import { toast } from 'react-toastify';
-import { useBookParkingMutation } from '../../../Applications/reducers/parking';
+import { useBookParkingMutation } from '../../../Applications/reducers/parking.tsx';
 import { useDispatch } from 'react-redux';
 import { LoaderVisibility } from '../../../Applications/slices/loaderSlice';
 
@@ -72,7 +72,6 @@ export default function UserModal(props) {
 
 
     useEffect(() => {
-        // console.log(data)
         if(isLoading)
         {
             dispatch(LoaderVisibility(true))
@@ -87,29 +86,28 @@ export default function UserModal(props) {
         }
         else if(isSuccess)
         {
-            // console.log(data);
-            if(data.success)
+            if(data.data.success)
             {
-                toast.success(data.message, {
+                toast.success(data.data.message, {
                     position: 'top-center',
                     autoClose: 2000
                 });
     
-                const message = "Hii "+userName+", the slot number for your car "+carNumber+" is "+props.slotId;
-                mobileNumber = '+91'+mobileNumber;
+                // const message = "Hii "+userName+", the slot number for your car "+carNumber+" is "+props.slotId;
+                // mobileNumber = '+91'+mobileNumber;
     
-                let number = mobileNumber.replace(/[^\w\s]/gi, "").replace(/ /g, "");
+                // let number = mobileNumber.replace(/[^\w\s]/gi, "").replace(/ /g, "");
     
-                let url = `https://web.whatsapp.com/send?phone=${number}`;
+                // let url = `https://web.whatsapp.com/send?phone=${number}`;
     
-                url += `&text=${encodeURI(message)}&app_absent=0`;
+                // url += `&text=${encodeURI(message)}&app_absent=0`;
     
-                window.open(url);
+                // window.open(url);
                 dispatch(LoaderVisibility(false))
                 
             }
             else {
-                toast.warning(data.message, {
+                toast.warning(data.data.message, {
                     position: 'top-center',
                     autoClose: 2000
                 });
@@ -127,9 +125,13 @@ export default function UserModal(props) {
                 isVacant: false
             }
 
-            // console.log("ParkingData", parkingData)
+            const apiData = {
+                _id: props._id,
+                basementNo: props.basementNo,
+                ...parkingData,
+            }
 
-            bookSlot(props.basementNo, props.slotId, parkingData);
+            bookSlot(apiData);
 
             setOpen(false);
             

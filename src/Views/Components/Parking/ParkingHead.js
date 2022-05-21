@@ -7,7 +7,7 @@ import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import { Box } from '@mui/material';
 import Basement from './Basement';
-import { useGetParkingByBasementNoQuery } from '../../../Applications/reducers/parking';
+import { useGetParkingByBasementNoQuery } from '../../../Applications/reducers/parking.tsx';
 import { LoaderVisibility } from '../../../Applications/slices/loaderSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -80,7 +80,7 @@ function ParkingHead() {
     else if (isSuccess) {
       console.log(data);
       if (data.success) {
-        dispatch(SetCarArray(data.data.carArray));
+        dispatch(SetCarArray(data.carArray));
         dispatch(LoaderVisibility(false))
       }
       else {

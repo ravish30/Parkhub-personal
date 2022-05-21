@@ -8,6 +8,9 @@ import Slide from '@mui/material/Slide';
 import { makeStyles, withStyles } from '@mui/styles'
 import { Box, Typography, Button, Modal, TextField } from "@mui/material";
 import { toast } from 'react-toastify';
+import { useCancelParkingMutation } from '../../../Applications/reducers/parking.tsx';
+import { LoaderVisibility } from '../../../Applications/slices/loaderSlice';
+import { useDispatch } from 'react-redux';
 
 
 const CssTextField = withStyles({
@@ -51,6 +54,9 @@ const style = {
 
 export default function CancelModal(props) {
     const [open, setOpen] = React.useState(false);
+    const dispatch = useDispatch();
+
+    const [cancelSlot, { isLoading, isError, isSuccess, ...data }] = useCancelParkingMutation();
 
     const handleOpen = () => {
         setOpen(true);
@@ -60,18 +66,61 @@ export default function CancelModal(props) {
         setOpen(false);
     };
 
-    const [userName, setUserName] = useState('');
-    const [mobileNumber, setMobileNumber] = useState('');
-    const [carName, setCarName] = useState('');
 
-    const slotId = "B" + props.basementNo + "S" + (props.i + 1)
-
-    const handleSubmit = () => {
-        setOpen(false);
-            toast.success('Car Departed', {
+    useEffect(() => {
+        if(isLoading)
+        {
+            dispatch(LoaderVisibility(true))
+        }
+        else if(isError)
+        {
+            dispatch(LoaderVisibility(false))
+            toast.error(data.error.error, {
                 position: 'top-center',
                 autoClose: 2000
             });
+        }
+        else if(isSuccess)
+        {
+            if(data.data.success)
+            {
+                toast.success(data.data.message, {
+                    position: 'top-center',
+                    autoClose: 2000
+                });
+    
+                dispatch(LoaderVisibility(false))
+                
+            }
+            else {
+                toast.warning(data.data.message, {
+                    position: 'top-center',
+                    autoClose: 2000
+                });
+                dispatch(LoaderVisibility(false))
+            }
+        }
+    }, [data])
+
+    const handleSubmit = () => {
+
+        const parkingData = {
+            name: '',
+            mobileNumber: null,
+            carNo: '',
+            isVacant: true
+        }
+
+        const apiData = {
+            _id: props._id,
+            basementNo: props.basementNo,
+            ...parkingData,
+        }
+
+        cancelSlot(apiData)
+
+        setOpen(false);
+        
     }
 
     return (

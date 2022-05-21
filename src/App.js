@@ -18,7 +18,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         {isVisible && <Loader />}
-        <Test />
+        {/* <Test /> */}
         <ToastContainer />
         <AppRoute />
       </ThemeProvider>

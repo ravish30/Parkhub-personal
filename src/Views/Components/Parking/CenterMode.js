@@ -135,7 +135,7 @@ const CenterMode = (props) => {
                                     </Box>
                                     <Box sx={{ marginTop: "200px" }}>
                                         {/* <Button onClick={handleOpen} color="secondary" variant="outlined" sx={{ width: "100%", textAlign: 'center' }}>Park Here</Button> */}
-                                        <UserModal basementNo={props.basementNo} slotId={data.slotId} />
+                                        <UserModal basementNo={props.basementNo} _id={data._id} />
                                     </Box>
                                 </Box>
                             </Box>
@@ -164,7 +164,7 @@ const CenterMode = (props) => {
                                     </Box>
                                     <Box sx={{ marginTop: "65px" }}>
                                         {/* <Button onClick={handleOpen} color="secondary" variant="outlined" sx={{ width: "100%", textAlign: 'center' }}>Cancel Booking</Button> */}
-                                        <CancelModal basementNo={props.basementNo} i={data.slotId} />
+                                        <CancelModal basementNo={props.basementNo} _id={data._id} />
                                     </Box>
                                 </Box>
                             </Box>
