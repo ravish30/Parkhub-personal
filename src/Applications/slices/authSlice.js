@@ -4,6 +4,7 @@ const initialState = {
     isAuth: false,
     step1: {},
     step3: {},
+    authToken: '',
 }
 
 export const authSlice = createSlice({
@@ -11,7 +12,8 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         LoginUser: (state, action) => {
-            state.isAuth = true
+            state.isAuth = true,
+            state.authToken = action.payload
         },
         LogoutUser: (state, action) => {
             state.isAuth = false

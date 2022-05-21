@@ -1,21 +1,76 @@
 import { Box, Button, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 import OtpInput from 'react-otp-input';
 import { toast } from 'react-toastify';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useSelector } from 'react-redux'
+import { useVerifyEmailMutation } from '../../../Applications/reducers/auth'
+import { LoaderVisibility } from '../../../Applications/slices/loaderSlice';
 
 
 function Step2(props) {
   const [otp, setOtp] = useState('')
+  const dispatch = useDispatch();
+
+  const email = useSelector(state => state.auth.step1.email)
+
+  const [verifyEmail, { isLoading, isError, isSuccess, ...data }] = useVerifyEmailMutation();
+
+
+  const newEmail = email.slice(0, 4) + "**********" + email.slice(email.length - 12, email.length)
 
   const handleOTPChange = (otp) => {
     setOtp(otp)
   }
 
+  useEffect(() => {
+    // console.log(data)
+    if (isLoading) {
+      dispatch(LoaderVisibility(true))
+    }
+    else if (isError) {
+      dispatch(LoaderVisibility(false))
+      toast.error(data.error.error, {
+        position: 'top-center',
+        autoClose: 2000
+      });
+    }
+    else if (isSuccess) {
+      // console.log(data);
+      if (data.data.success) {
+        toast.success(data.data.message, {
+          position: 'top-center',
+          autoClose: 2000
+        });
+        dispatch(LoaderVisibility(false))
+        props.nextHandler();
+      }
+      else {
+        toast.warning(data.data.message, {
+          position: 'top-center',
+          autoClose: 2000
+        });
+        dispatch(LoaderVisibility(false))
+      }
+    }
+  }, [data])
+
   const step2Handler = () => {
-    if (otp) {
-      props.nextHandler();
-      toast.success('Email Verified', {
+    if (otp && otp.length === 6) {
+      const data = {
+        email: email,
+        otp: otp
+      }
+      verifyEmail(data);
+      // props.nextHandler();
+      // toast.success('Email Verified', {
+      //   position: 'top-center',
+      //   autoClose: 2000
+      // });
+    }
+    else {
+      toast.error('Enter the otp', {
         position: 'top-center',
         autoClose: 2000
       });
@@ -28,7 +83,7 @@ function Step2(props) {
         <Typography variant="h6" color="primary">Email Verification</Typography>
         <Box sx={{ marginTop: "60px" }}>
           <Typography variant="p" color="primary" sx={{ fontSize: "14px" }}>
-            You have been sent a 6 digit email verification code on your email id goy*********01@gmail.com
+            You have been sent a 6 digit email verification code on your email id {newEmail}
           </Typography>
         </Box>
         <Box sx={{ marginTop: "50px", display: "flex", justifyContent: 'center' }}>
@@ -52,7 +107,7 @@ function Step2(props) {
             color="secondary"
             variant="p"
           >
-            Next
+            Verify Email and Proceed
           </Typography>
           <NavigateNextIcon color="secondary" />
         </Box>

@@ -1,17 +1,54 @@
 import { Box, Typography, TextField, Button } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux'
+import { useSelector , useDispatch} from 'react-redux'
+import { useCustomizeParkingMutation } from '../../../Applications/reducers/auth'
+import { LoaderVisibility } from '../../../Applications/slices/loaderSlice';
 
 function Step4() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const step1Data = useSelector(state => state.auth.step1)
   const step3Data = useSelector(state => state.auth.step3)
 
   const [password1, setPassword1] = useState('')
   const [password2, setPassword2] = useState('')
+
+  const [customizeParking, { isLoading, isError, isSuccess, ...data }] = useCustomizeParkingMutation();
+
+  useEffect(() => {
+    // console.log(data)
+    if (isLoading) {
+      dispatch(LoaderVisibility(true))
+    }
+    else if (isError) {
+      dispatch(LoaderVisibility(false))
+      toast.error(data.error.error, {
+        position: 'top-center',
+        autoClose: 2000
+      });
+    }
+    else if (isSuccess) {
+      // console.log(data);
+      if (data.data.success) {
+        toast.success(data.data.message, {
+          position: 'top-center',
+          autoClose: 2000
+        });
+        dispatch(LoaderVisibility(false))
+        navigate('/')
+      }
+      else {
+        toast.warning(data.data.message, {
+          position: 'top-center',
+          autoClose: 2000
+        });
+        dispatch(LoaderVisibility(false))
+      }
+    }
+  }, [data])
 
   const customizeHandler = () => {
     const data = {
@@ -22,13 +59,13 @@ function Step4() {
     if (data?.password1 && data?.password2) {
       if (data.password1 === data.password2) {
         const finalUserData = {
-          ...step1Data,
+          email: step1Data.email,
           ...step3Data,
-          password1
+          password: password1
         }
 
-        console.log(finalUserData);
-        navigate('/')
+        customizeParking(finalUserData);
+        // console.log(finalUserData);
       }
       else {
         toast.warning('Passwords do not match', {

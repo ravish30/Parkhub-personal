@@ -6,6 +6,10 @@ import { useDispatch } from 'react-redux';
 import { LoginUser } from '../../Applications/slices/authSlice';
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useSignInUserMutation } from '../../Applications/reducers/auth';
+import { LoaderVisibility } from '../../Applications/slices/loaderSlice';
+import { toast } from 'react-toastify';
+import { setTotalBasements } from '../../Applications/slices/parkSlice';
 
 const useStyles = makeStyles((theme) => ({
     formWrapper: {
@@ -55,6 +59,47 @@ function Login() {
     const classes = useStyles();
     const navigate = useNavigate();
 
+    const [signinUser, { isLoading, isError, isSuccess, ...data }] = useSignInUserMutation();
+
+    useEffect(() => {
+        // console.log(data)
+        if(isLoading)
+        {
+            dispatch(LoaderVisibility(true))
+        }
+        else if(isError)
+        {
+            dispatch(LoaderVisibility(false))
+            toast.error(data.error.error, {
+                position: 'top-center',
+                autoClose: 2000
+            });
+        }
+        else if(isSuccess)
+        {
+            // console.log(data);
+            if(data.data.success)
+            {
+                toast.success(data.data.message, {
+                    position: 'top-center',
+                    autoClose: 2000
+                });
+                dispatch(LoaderVisibility(false))
+                dispatch(setTotalBasements(data.data.user.noOfBasements))
+                dispatch(LoginUser(data.data.token));
+                localStorage.setItem('token', data.data.token)
+                navigate('/myparking')
+            }
+            else {
+                toast.warning(data.data.message, {
+                    position: 'top-center',
+                    autoClose: 2000
+                });
+                dispatch(LoaderVisibility(false))
+            }
+        }
+    }, [data])
+
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -64,10 +109,11 @@ function Login() {
         onSubmit: (values, { resetForm }) => {
             resetForm({});
             localStorage.setItem('isAuth', true)
-            dispatch(LoginUser())
-            navigate('/myparking')
+            signinUser(values);
         }
     })
+
+    
 
 
 

@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Grid, TextField, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useDispatch } from 'react-redux'
 import { Step1Data } from '../../../Applications/slices/authSlice';
 import { toast } from 'react-toastify';
+import { useSendVerificationCodeMutation } from '../../../Applications/reducers/auth';
+import { LoaderVisibility } from '../../../Applications/slices/loaderSlice';
 
 
 
@@ -18,19 +20,58 @@ function Step1(props) {
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
 
+    const [saveUserData, { isLoading, isError, isSuccess, ...data }] = useSendVerificationCodeMutation();
+
+    useEffect(() => {
+        // console.log(data)
+        if(isLoading)
+        {
+            dispatch(LoaderVisibility(true))
+        }
+        else if(isError)
+        {
+            dispatch(LoaderVisibility(false))
+            toast.error(data.error.error, {
+                position: 'top-center',
+                autoClose: 2000
+            });
+        }
+        else if(isSuccess)
+        {
+            // console.log(data);
+            if(data.data.success)
+            {
+                toast.success(data.data.message, {
+                    position: 'top-center',
+                    autoClose: 2000
+                });
+                dispatch(LoaderVisibility(false))
+                props.nextHandler();
+            }
+            else {
+                toast.warning(data.data.message, {
+                    position: 'top-center',
+                    autoClose: 2000
+                });
+                dispatch(LoaderVisibility(false))
+            }
+        }
+    }, [data])
+
     const step1Handler = () => {
         const data = {
-            firstname: firstname,
-            lastname: lastname,
+            firstName: firstname,
+            lastName: lastname,
             organization: organization,
             location: location,
             email: email,
             mobileNumber: mobileNumber
         }
 
-        if (data?.firstname && data?.lastname && data?.organization && data?.location && data?.email && data?.mobileNumber) {
+        if (data?.firstName && data?.lastName && data?.organization && data?.location && data?.email && data?.mobileNumber) {
             dispatch(Step1Data(data));
-            props.nextHandler();
+            saveUserData(data);
+            // props.nextHandler();
         }
         else {
             toast.warning('Please fill all fields', {

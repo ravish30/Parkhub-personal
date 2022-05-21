@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import { makeStyles, withStyles } from '@mui/styles'
 import { Box, Typography, Button, Modal, TextField } from "@mui/material";
+import UserModal from "./UserModal";
+import CancelModal from "./CancelModal";
+import { useSelector } from "react-redux";
 
 const style = {
     position: 'absolute',
@@ -51,11 +54,25 @@ const useStyles = makeStyles((theme) => ({
             // border: "1px solid white",
             borderRadius: '25px',
         }
+    },
+    redcard: {
+        border: "1px solid red",
+        padding: "25px",
+        borderRadius: "25px",
+        margin: "5px",
+        cursor: 'pointer',
+        transition: '1s',
+        "&:hover": {
+            // border: "1px solid white",
+            borderRadius: '25px',
+        }
     }
 }))
 
 const CenterMode = (props) => {
     const classes = useStyles();
+
+    const carArray = useSelector(state => state.parking.carArray);
 
     const [open, setOpen] = useState(false)
 
@@ -103,69 +120,58 @@ const CenterMode = (props) => {
     };
 
 
-
     return (
         <div>
             <Slider {...settings}>
-                {new Array(10).fill("").map((_, i) => {
-                    return (
-                        <Box sx={{ margin: "10px" }}>
-                            <Box className={classes.card}>
-                                <Typography color="primary" sx={{ textAlign: 'center' }}>Vacant</Typography>
-                                <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: "15px" }}>
-                                    <Typography color="primary">Slot No :</Typography>
-                                    <Typography color="primary" sx={{ border: "1px solid #fff", padding: "5px 10px", borderRadius: "10px", fontSize: "12px" }}>B{props.basementNo}S{i+1}</Typography>
-                                </Box>
-                                <Box sx={{ marginTop: "200px" }}>
-                                    <Button onClick={handleOpen} color="secondary" variant="outlined" sx={{ width: "100%", textAlign: 'center' }}>Park Here</Button>
-                                    <Modal
-                                        open={open}
-                                        onClose={handleClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        sx={{ background: 'transparent' }}
-                                        hideBackdrop={true}
-                                    >
-                                        <Box sx={style}>
-                                            <Typography id="modal-modal-title" color="secondary" variant="h6" component="h2" sx={{ textAlign: 'center' }}>
-                                                Customer Details
-                                            </Typography>
-                                            <Box sx={{ marginTop: "40px" }}>
-                                                <Typography component="div" sx={{ margin: "20px auto" }}>
-                                                    <CssTextField
-                                                        type="text"
-                                                        label="Customer Name"
-                                                        name="customerName"
-                                                        InputProps={{ style: { color: "#fff" } }}
-                                                        InputLabelProps={{ style: { color: "#fff" } }}
-                                                        sx={{ width: "100%", color: "#fff" }}
-                                                    />
-                                                </Typography>
-                                                <Typography component="div" sx={{ margin: "20px auto" }}>
-                                                    <CssTextField
-                                                        type="number"
-                                                        label="Customer Mobile Number"
-                                                        name="customerNumber"
-                                                        InputProps={{ style: { color: "#fff" } }}
-                                                        InputLabelProps={{ style: { color: "#fff" } }}
-                                                        sx={{ width: "100%", color: "#fff" }}
-                                                    />
-                                                </Typography>
-
-                                            </Box>
-                                            <Box display="flex" justifyContent="end">
-                                                <Button color="secondary" onClick={handleClose}>Cancel</Button>
-                                                <Button color="secondary" onClick={handleClose}>Save</Button>
-                                            </Box>
-                                        </Box>
-                                    </Modal>
+                {carArray.map((data) => {
+                    if (data.isVacant == true) {
+                        return (
+                            <Box sx={{ margin: "10px" }} key={data._id}>
+                                <Box className={classes.card}>
+                                    <Typography color="primary" sx={{ textAlign: 'center' }}>Vacant</Typography>
+                                    <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: "15px" }}>
+                                        <Typography color="primary">Slot No :</Typography>
+                                        <Typography color="primary" sx={{ border: "1px solid #fff", padding: "5px 10px", borderRadius: "10px", fontSize: "12px" }}>{data.slotId}</Typography>
+                                    </Box>
+                                    <Box sx={{ marginTop: "200px" }}>
+                                        {/* <Button onClick={handleOpen} color="secondary" variant="outlined" sx={{ width: "100%", textAlign: 'center' }}>Park Here</Button> */}
+                                        <UserModal basementNo={props.basementNo} slotId={data.slotId} />
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
-                    )
+                        )
+                    }
+                    else if(data.isVacant == false) {
+                        return (
+                            <Box sx={{ margin: "10px" }} key={data._id}>
+                                <Box className={classes.redcard}>
+                                    <Typography color="primary" sx={{ textAlign: 'center' }}>Filled</Typography>
+                                    <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: "15px" }}>
+                                        <Typography color="primary">Slot No :</Typography>
+                                        <Typography color="primary" sx={{ border: "1px solid #fff", padding: "5px 10px", borderRadius: "10px", fontSize: "12px" }}>{data.slotId}</Typography>
+                                    </Box>
+                                    <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: "15px" }}>
+                                        <Typography color="primary">Name :</Typography>
+                                        <Typography color="primary" sx={{ border: "1px solid #fff", padding: "5px 10px", borderRadius: "10px", fontSize: "12px" }}>{data.name}</Typography>
+                                    </Box>
+                                    <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: "15px" }}>
+                                        <Typography color="primary">Mobile No :</Typography>
+                                        <Typography color="primary" sx={{ border: "1px solid #fff", padding: "5px 10px", borderRadius: "10px", fontSize: "12px" }}>{data.mobileNumber}</Typography>
+                                    </Box>
+                                    <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: "15px" }}>
+                                        <Typography color="primary">Car No :</Typography>
+                                        <Typography color="primary" sx={{ border: "1px solid #fff", padding: "5px 10px", borderRadius: "10px", fontSize: "12px" }}>{data.carNo}</Typography>
+                                    </Box>
+                                    <Box sx={{ marginTop: "65px" }}>
+                                        {/* <Button onClick={handleOpen} color="secondary" variant="outlined" sx={{ width: "100%", textAlign: 'center' }}>Cancel Booking</Button> */}
+                                        <CancelModal basementNo={props.basementNo} i={data.slotId} />
+                                    </Box>
+                                </Box>
+                            </Box>
+                        )
+                    }
                 })}
-
-
+                
             </Slider>
         </div>
     );

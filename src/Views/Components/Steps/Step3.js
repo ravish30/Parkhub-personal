@@ -36,10 +36,10 @@ function Step3(props) {
 
   const step3Handler = () => {
     const data = {
-      numberOfBasements: basements,
-      carsPerBasement: carsPerBasement
+      noOfBasements: basements,
+      noOfCarsPerBasement: carsPerBasement
     }
-    if (data?.numberOfBasements && data?.carsPerBasement) {
+    if (data?.noOfBasements && data?.noOfCarsPerBasement) {
       dispatch(Step3Data(data));
       props.nextHandler();
     }

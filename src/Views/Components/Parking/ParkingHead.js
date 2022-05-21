@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/system';
 import TabsUnstyled from '@mui/base/TabsUnstyled';
 import TabsListUnstyled from '@mui/base/TabsListUnstyled';
@@ -7,6 +7,11 @@ import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import { Box } from '@mui/material';
 import Basement from './Basement';
+import { useGetParkingByBasementNoQuery } from '../../../Applications/reducers/parking';
+import { LoaderVisibility } from '../../../Applications/slices/loaderSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { SetCarArray } from '../../../Applications/slices/parkSlice';
 
 const Tab = styled(TabUnstyled)`
   font-family: Montserrat;
@@ -52,6 +57,51 @@ const TabsList = styled(TabsListUnstyled)`
 `;
 
 function ParkingHead() {
+  const dispatch = useDispatch();
+
+  const [activeBasement, setActiveBasement] = useState(1);
+
+  const totalBasements = useSelector(state => state.parking.noOfBasements)
+
+  const { data, isLoading, isError, isSuccess } = useGetParkingByBasementNoQuery(activeBasement)
+
+  useEffect(() => {
+    // console.log(data)
+    if (isLoading) {
+      dispatch(LoaderVisibility(true))
+    }
+    else if (isError) {
+      dispatch(LoaderVisibility(false))
+      toast.error(data.error.error, {
+        position: 'top-center',
+        autoClose: 2000
+      });
+    }
+    else if (isSuccess) {
+      console.log(data);
+      if (data.success) {
+        dispatch(SetCarArray(data.data.carArray));
+        dispatch(LoaderVisibility(false))
+      }
+      else {
+        toast.warning(data.data.message, {
+          position: 'top-center',
+          autoClose: 2000
+        });
+        dispatch(LoaderVisibility(false))
+      }
+      dispatch(LoaderVisibility(false))
+    }
+  }, [data])
+
+
+  const tabHandler = (i) => {
+    setActiveBasement(i);
+  }
+
+
+
+
   return (
     <Box>
       <TabsUnstyled defaultValue={0}>
@@ -63,19 +113,19 @@ function ParkingHead() {
           alignItems="center"
         >
           <TabsList>
-            {new Array(5).fill("").map((_, i) => {
+            {new Array(parseInt(totalBasements)).fill("").map((_, i) => {
               return (
-                <Tab>Basement {i + 1}</Tab>
+                <Tab onClick={() => tabHandler(i+1)}>Basement {i + 1}</Tab>
               )
             })}
           </TabsList>
         </Box>
-        
+
         {new Array(5).fill("").map((_, i) => {
           return (
             <TabPanel value={i}>
               <Box sx={{ marginTop: "50px" }}>
-                <Basement basementNo={i+1} />
+                <Basement basementNo={i + 1} />
               </Box>
             </TabPanel>
           )
