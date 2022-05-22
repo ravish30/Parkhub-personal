@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from '../Components/Header';
 import Login from '../Login_Signip/Login';
 import CustomizeParking from '../Pages/CustomizeParking';
+import MembershipPlans from '../Pages/MembershipPlans';
 import MyParking from '../Pages/MyParking';
 import NotFound from '../Pages/NotFound';
 
@@ -17,6 +18,7 @@ function AppRoute() {
                     <Route index element={<Login />} />
                     <Route path="customize-parking" element={<CustomizeParking />} />
                     <Route path="myparking" element={<MyParking />} />
+                    <Route path="membership-plans" element={<MembershipPlans />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>

@@ -66,7 +66,7 @@ function ParkingHead() {
   const { data, isLoading, isError, isSuccess } = useGetParkingByBasementNoQuery(activeBasement)
 
   useEffect(() => {
-    // console.log(data)
+    console.log(data)
     if (isLoading) {
       dispatch(LoaderVisibility(true))
     }
@@ -78,9 +78,9 @@ function ParkingHead() {
       });
     }
     else if (isSuccess) {
-      console.log(data);
+      // console.log(data);
       if (data.success) {
-        dispatch(SetCarArray(data.carArray));
+        dispatch(SetCarArray(data.data.carArray));
         dispatch(LoaderVisibility(false))
       }
       else {

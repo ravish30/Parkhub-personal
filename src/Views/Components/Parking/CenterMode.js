@@ -123,7 +123,7 @@ const CenterMode = (props) => {
     return (
         <div>
             <Slider {...settings}>
-                {carArray.map((data) => {
+                {carArray?.map((data) => {
                     if (data.isVacant == true) {
                         return (
                             <Box sx={{ margin: "10px" }} key={data._id}>
