@@ -78,9 +78,9 @@ function ParkingHead() {
       });
     }
     else if (isSuccess) {
-      // console.log(data);
+      console.log(data);
       if (data.success) {
-        dispatch(SetCarArray(data.data.carArray));
+        dispatch(SetCarArray(data.carArray));
         dispatch(LoaderVisibility(false))
       }
       else {
