@@ -56,6 +56,14 @@ function Step4() {
       password2: password2
     }
 
+    if(data.password1.length<8 || data.password2.length<8) {
+      toast.warning('Password should be of atleast 8 characters', {
+        position: 'top-center',
+        autoClose: 2000
+      })
+      return;
+    }
+
     if (data?.password1 && data?.password2) {
       if (data.password1 === data.password2) {
         const finalUserData = {
