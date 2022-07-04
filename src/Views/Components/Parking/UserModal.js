@@ -94,7 +94,7 @@ export default function UserModal(props) {
                 });
     
                 const message = "Hii "+userName+", the slot number for your car "+carNumber+" is "+props.slotId;
-                mobileNumber = '+91'+mobileNumber;
+                mobileNumber = mobileNumber;
     
                 let number = mobileNumber.replace(/[^\w\s]/gi, "").replace(/ /g, "");
     
