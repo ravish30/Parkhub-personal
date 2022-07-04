@@ -38,10 +38,10 @@ function Header() {
                     <Box display="flex" alignItems="center" gap="100px">
                         <Typography color="primary" variant="h4" className={classes.head}>PARKHUB</Typography>
                         <Box display="flex" gap="40px">
-                            {/* <NavLink to="/about" className={(navigationData) => navigationData.isActive ? classes.activeLink : classes.notActiveLink}>ABOUT</NavLink> */}
                             <NavLink to="/myparking" className={(navigationData) => navigationData.isActive ? classes.activeLink : classes.notActiveLink}>MY PARKING</NavLink>
-                            <NavLink to="/membership-plans" className={(navigationData) => navigationData.isActive ? classes.activeLink : classes.notActiveLink}>MEMBERSHIP PLANS</NavLink>
-                            <NavLink to="/profile" className={(navigationData) => navigationData.isActive ? classes.activeLink : classes.notActiveLink}>PROFILE</NavLink>
+                            <NavLink to="/about" className={(navigationData) => navigationData.isActive ? classes.activeLink : classes.notActiveLink}>ABOUT</NavLink>
+                            {/* <NavLink to="/membership-plans" className={(navigationData) => navigationData.isActive ? classes.activeLink : classes.notActiveLink}>MEMBERSHIP PLANS</NavLink> */}
+                            {/* <NavLink to="/profile" className={(navigationData) => navigationData.isActive ? classes.activeLink : classes.notActiveLink}>PROFILE</NavLink> */}
                         </Box>
                     </Box>
                     {/* <Box sx={{ background: "#768BF9", width: "150px", height: "3px", borderRadius: "20px", marginTop: "5px" }}></Box> */}

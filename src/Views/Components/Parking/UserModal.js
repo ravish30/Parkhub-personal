@@ -88,10 +88,10 @@ export default function UserModal(props) {
         {
             if(data.data.success)
             {
-                toast.success(data.data.message, {
-                    position: 'top-center',
-                    autoClose: 2000
-                });
+                // toast.success(data.data.message, {
+                //     position: 'top-center',
+                //     autoClose: 2000
+                // });
     
                 
                 dispatch(LoaderVisibility(false))
