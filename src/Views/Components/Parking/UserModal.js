@@ -93,16 +93,16 @@ export default function UserModal(props) {
                     autoClose: 2000
                 });
     
-                // const message = "Hii "+userName+", the slot number for your car "+carNumber+" is "+props.slotId;
-                // mobileNumber = '+91'+mobileNumber;
+                const message = "Hii "+userName+", the slot number for your car "+carNumber+" is "+props.slotId;
+                mobileNumber = '+91'+mobileNumber;
     
-                // let number = mobileNumber.replace(/[^\w\s]/gi, "").replace(/ /g, "");
+                let number = mobileNumber.replace(/[^\w\s]/gi, "").replace(/ /g, "");
     
-                // let url = `https://web.whatsapp.com/send?phone=${number}`;
+                let url = `https://web.whatsapp.com/send?phone=${number}`;
     
-                // url += `&text=${encodeURI(message)}&app_absent=0`;
+                url += `&text=${encodeURI(message)}&app_absent=0`;
     
-                // window.open(url);
+                window.open(url);
                 dispatch(LoaderVisibility(false))
                 
             }
