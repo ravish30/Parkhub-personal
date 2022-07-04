@@ -93,8 +93,10 @@ export default function UserModal(props) {
                     autoClose: 2000
                 });
     
+                
+                dispatch(LoaderVisibility(false))
+
                 const message = "Hii "+userName+", the slot number for your car "+carNumber+" is "+props.slotId;
-                mobileNumber = mobileNumber;
     
                 let number = mobileNumber.replace(/[^\w\s]/gi, "").replace(/ /g, "");
     
@@ -103,7 +105,6 @@ export default function UserModal(props) {
                 url += `&text=${encodeURI(message)}&app_absent=0`;
     
                 window.open(url);
-                dispatch(LoaderVisibility(false))
                 
             }
             else {
