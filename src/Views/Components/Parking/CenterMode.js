@@ -135,7 +135,7 @@ const CenterMode = (props) => {
                                     </Box>
                                     <Box sx={{ marginTop: "200px" }}>
                                         {/* <Button onClick={handleOpen} color="secondary" variant="outlined" sx={{ width: "100%", textAlign: 'center' }}>Park Here</Button> */}
-                                        <UserModal basementNo={props.basementNo} _id={data._id} />
+                                        <UserModal basementNo={props.basementNo} _id={data._id} slotId={data.slotId} />
                                     </Box>
                                 </Box>
                             </Box>
